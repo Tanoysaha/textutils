@@ -89,10 +89,15 @@ export default function TextForm(props) {
     const handleOnChange=(event)=>{
         setText(event.target.value)
     }
+    const handleClearSpaceClick=()=>{
+        setText(text.trim().replace(/\s+/g, ' '));
+        props.showAlert('All Extra Spaces Removed','success');
+    }
     const handleCopy=()=>{
         var text=document.getElementById('myBox');
         text.select();
         navigator.clipboard.writeText(text.value);
+        document.getSelection().removeAllRanges();
         props.showAlert('Text Copied','success');
     }
     const  [text,setText]=useState('');
@@ -105,20 +110,19 @@ export default function TextForm(props) {
     {/* <label htmlFor="myBox" className="form-label">Enter your text below</label> */}
     <textarea className="form-control" value={text} onChange={handleOnChange} id="myBox" rows="8" style={{backgroundColor:props.mode==='dark'?'black':'white',color:props.mode==='dark'?'white':'black'}}></textarea>
   </div>
-  <button className="btn btn-dark mx-1 my-3" onClick={handleSentenseClick}>Convert to Sentense case</button>
-  <button className="btn btn-dark mx-1 my-3" onClick={handleCapClick}>Convert to Capitalied case</button>
-  <button className="btn btn-success mx-1 my-3" onClick={handleUpClick}>Convert to Upper case</button>
-  <button className="btn btn-success mx-1 my-3" onClick={handleLowClick}>Convert to lower case</button>
-  <button className='btn btn-info mx-1 my-3' onClick={handleCopy}>Copy Text</button>
-  <button className='btn btn-info mx-1 my-3' onClick={handleClearClick}>Clear Text</button>
+  <button disabled={text.length===0} className="btn btn-dark mx-1 my-3" onClick={handleSentenseClick}>Convert to Sentense case</button>
+  <button disabled={text.length===0} className="btn btn-dark mx-1 my-3" onClick={handleCapClick}>Convert to Capitalied case</button>
+  <button disabled={text.length===0} className="btn btn-success mx-1 my-3" onClick={handleUpClick}>Convert to Upper case</button>
+  <button disabled={text.length===0} className="btn btn-success mx-1 my-3" onClick={handleLowClick}>Convert to lower case</button>
+  <button disabled={text.length===0} className='btn btn-info mx-1 my-3' onClick={handleCopy}>Copy Text</button>
+  <button disabled={text.length===0} className='btn btn-info mx-1 my-3' onClick={handleClearSpaceClick}>Ramove Extra Spaces</button>
+  <button disabled={text.length===0} className='btn btn-info mx-1 my-3' onClick={handleClearClick}>Clear Text</button>
     </div>
     <div className="container my-2" style={{color:props.mode==='dark'?'white':'black'}}>
         <h1>Your text summary </h1>
         {/* <p>{text.split(' ').length} words & {text.length} characters</p> */}
         <p>{text.trim() === '' ? 0 : text.match(/\S+/g).length} words and {text.replace(/\s+/g, '').length} characters</p>
-
-has context menu
-        <p>{0.008*text.split(' ').length } min read time</p>
+        <p>{0.008*(text.trim() === '' ? 0 : text.match(/\S+/g).length )} min read time</p>
         <h2>Preview</h2>
         <p>{text.length>0?text:'Enter something above'}</p>
     </div>

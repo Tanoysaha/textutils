@@ -7,6 +7,13 @@ import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import React,{useState} from 'react';
 
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
+
 // import {
 //   BrowserRouter as Router,
 //   Routes,
@@ -48,21 +55,18 @@ const toggleMode=()=>{
 
   return (
     <>
-  {/* <createBrowserRouter> */}
+  <Router>
 <Navbar title1="Textutils" mode={mode} toggleMode={toggleMode} title2="Home" title3="About"/>
 <Alert alert={alert} />
-
-
   <div className="container my-3">
-  <TextForm heading="Enter the text to analyze below" mode={mode} showAlert={showAlert}/>
-     {/* <RouterProvider> 
-      <Route path="/about" element={<About />}> 
+     <Routes> 
+      <Route exact path="/about" element={<About />}> 
       </Route> 
-      <Route path="/" element={<TextForm heading="Enter text to analyze" mode={mode} showAlert={showAlert} />}> 
+      <Route exact path="/" element={<TextForm heading="Enter text to analyze" mode={mode} showAlert={showAlert} />}> 
       </Route> 
-      </RouterProvider> */}
+      </Routes>
        </div>
-  {/* </createBrowserRouter>  */}
+  </Router> 
   
     </>
   );
